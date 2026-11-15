@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "battle_bg_coast.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

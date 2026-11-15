@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_fenceSE.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

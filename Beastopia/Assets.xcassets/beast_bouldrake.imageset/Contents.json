@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "beast_bouldrake.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

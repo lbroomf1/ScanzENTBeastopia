@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "npc_ch5-wren.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

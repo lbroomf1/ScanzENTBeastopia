@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "battle_bg_spire.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "npc_ch1-pip.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

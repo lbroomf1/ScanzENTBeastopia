@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "beast_prismpup.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

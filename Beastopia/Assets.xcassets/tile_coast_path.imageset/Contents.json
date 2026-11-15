@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_coast_path.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

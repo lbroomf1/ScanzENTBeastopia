@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_coast_flowers.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

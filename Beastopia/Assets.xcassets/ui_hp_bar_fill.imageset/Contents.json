@@ -1,0 +1,12 @@
+{
+  "images": [
+    {
+      "filename": "ui_hp_bar_fill.png",
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

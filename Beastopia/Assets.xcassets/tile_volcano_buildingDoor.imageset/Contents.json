@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_volcano_buildingDoor.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

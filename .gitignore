@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Xcode per-user state and build products
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.xcresult
+
+# Never commit signing material or local secrets
+*.p12
+*.mobileprovision
+*.cer
+*.env

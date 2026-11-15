@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "item_potion.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

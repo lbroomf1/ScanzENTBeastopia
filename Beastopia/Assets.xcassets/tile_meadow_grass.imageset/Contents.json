@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_meadow_grass.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

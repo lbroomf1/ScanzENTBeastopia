@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "tile_spire_fenceNE.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "element_gale.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
