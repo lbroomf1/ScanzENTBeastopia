@@ -4,6 +4,7 @@
 //
 
 import AVFoundation
+import OSLog
 import SwiftUI
 import VisionKit
 
@@ -549,7 +550,7 @@ final class ScannerController: UIViewController {
             do {
                 try scanner.startScanning()
             } catch {
-                print("Beastopia: scanner failed to start — \(error)")
+                Logger(subsystem: "Beastopia", category: "Scan").error("Scanner failed to start: \(error, privacy: .private)")
                 return
             }
             if !hasSetInitialZoom {
@@ -573,7 +574,7 @@ final class ScannerController: UIViewController {
             device.torchMode = mode
             device.unlockForConfiguration()
         } catch {
-            print("Beastopia: couldn't change the flashlight — \(error)")
+            Logger(subsystem: "Beastopia", category: "Scan").error("Couldn't change the flashlight: \(error, privacy: .private)")
         }
     }
 }

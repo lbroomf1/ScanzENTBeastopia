@@ -4,6 +4,7 @@
 //
 
 import AVFoundation
+import OSLog
 import SwiftUI
 import UIKit
 
@@ -132,7 +133,7 @@ final class SoundFX {
             try engine.start()
             return true
         } catch {
-            print("Beastopia: audio unavailable — \(error)")
+            Logger(subsystem: "Beastopia", category: "Audio").error("Audio unavailable: \(error, privacy: .private)")
             return false
         }
     }

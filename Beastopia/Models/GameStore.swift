@@ -25,7 +25,11 @@ final class FileSaveStorage: SaveStorage {
     }
 
     func load() -> Data? { try? Data(contentsOf: url) }
-    func save(_ data: Data) throws { try data.write(to: url, options: .atomic) }
+    /// Written atomically and encrypted by Data Protection: unreadable while the device is locked after a
+    /// restart. (Full `complete` protection isn't used, because a save can land just as the screen locks.)
+    func save(_ data: Data) throws {
+        try data.write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+    }
 
     /// Writes the data beside the save as `beastopia-save.unreadable-<time>.json`. Never overwrites an earlier copy.
     func setAside(_ data: Data) throws {

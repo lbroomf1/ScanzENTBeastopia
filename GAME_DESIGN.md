@@ -727,7 +727,13 @@ with an **Enter the Arena** button. The hall is a walkable map (quarry tiles, re
   2. Both sort by player ID to agree on combatant order, and XOR the nonces into a shared seed.
   3. From then on, only `action(turn, move)` messages are sent. Each device runs the same `BattleEngine` and gets the same result.
   4. Leaving mid-match sends `forfeit`. A disconnect counts as a win in Versus.
-- **Validation:** messages over 16 KB are dropped. A remote beast is sanitized (unknown species falls back to a default rookie, stats clamped to 1–999, level 1–99, nickname ≤ 20 characters). Remote moves are only accepted for the current or next turn and indices 0–3.
+- **Validation:** messages over 16 KB are dropped, and a peer sending more than 60 messages a second is disconnected
+  (`MultiplayerManager.maxMessagesPerSecond`). A remote beast is sanitized (`MultiplayerManager.sanitized`): fresh ID,
+  unknown species falls back to a default rookie, stats clamped to 1–999, level 1–99, nickname ≤ 20 characters,
+  origin tag ≤ 24, XP/bond/fatigue/wins/losses clamped, non-finite hue reset. Battles only read species, stats and
+  level, so sanitizing never desyncs. Remote moves are only accepted for the current or next turn and indices 0–3.
+- **Security decisions** (Enhanced Security deferred until a paid team, accepted risks) are recorded in
+  `xcode-security-settings.md`.
 
 ---
 
@@ -1088,7 +1094,8 @@ battle sheet, a tab switch) brings back the one below. Stings duck the music to 
 
 ## 17. Save data and stable IDs
 
-Saved as JSON at `Documents/beastopia-save.json` after every change. It holds: beasts, discovered species,
+Saved as JSON at `Documents/beastopia-save.json` after every change, written atomically with Data Protection
+(`completeFileProtectionUntilFirstUserAuthentication`). It holds: beasts, discovered species,
 completed chapters and objectives, story flags, adventure positions per region, coins, shards, inventory,
 opened chests (which also holds claimed Element Glyphs and solved element puzzles, so no new field was needed), the keeper (name, look, class, rank, XP, owned and equipped gear), primary beast and claimed code fingerprints. Fields added after launch must be
 **optional** so older saves still load (see `SaveFile`).

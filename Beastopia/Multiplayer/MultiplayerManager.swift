@@ -74,6 +74,12 @@ final class MultiplayerManager: NSObject {
     private var localNonce: UInt64 = 0
     private var hasEchoedHello = false
     private var remoteIndex: Int?
+    /// Start of the current one-second window and the messages received in it, to catch floods.
+    private var floodWindowStart = Date.distantPast
+    private var floodCount = 0
+
+    /// More messages than this in one second means a broken or hostile peer: the match ends.
+    static let maxMessagesPerSecond = 60
 
     var isAuthenticated: Bool { GKLocalPlayer.local.isAuthenticated }
 
@@ -197,6 +203,7 @@ final class MultiplayerManager: NSObject {
         session = nil
         remoteIndex = nil
         hasEchoedHello = false
+        floodCount = 0
         if status != .signedOut { status = isAuthenticated ? .ready : .signedOut }
     }
 
@@ -231,7 +238,8 @@ final class MultiplayerManager: NSObject {
     }
 
     private func handle(_ data: Data, from playerID: String, displayName: String) {
-        guard data.count < 16_384, let message = try? JSONDecoder().decode(Message.self, from: data) else { return }
+        guard data.count < 16_384, !isFlooding() else { return }
+        guard let message = try? JSONDecoder().decode(Message.self, from: data) else { return }
 
         switch message {
         case let .hello(beast, nonce):
@@ -251,9 +259,31 @@ final class MultiplayerManager: NSObject {
         }
     }
 
+    /// Counts a received message. Returns `true` (and ends the match) if the peer is flooding.
+    private func isFlooding() -> Bool {
+        let now = Date.now
+        if now.timeIntervalSince(floodWindowStart) >= 1 {
+            floodWindowStart = now
+            floodCount = 0
+        }
+        floodCount += 1
+        guard floodCount > Self.maxMessagesPerSecond else { return false }
+        if let session {
+            session.peerDisconnected = true
+        } else {
+            status = .failed("The other keeper's connection misbehaved, so the match was stopped.")
+        }
+        match?.disconnect()
+        nearbySession?.disconnect()
+        return true
+    }
+
     /// Clamps a peer-supplied beast to legal values. Internal so tests can check it.
+    /// Battles only read species, stats and level, so the other clamps never change the simulation.
     static func sanitized(_ beast: Beast) -> Beast {
         var clean = beast
+        // A fresh ID, so a peer can't impersonate one of the local keeper's own beasts.
+        clean.id = UUID()
         if SpeciesDatabase.species(beast.speciesID) == nil {
             clean.speciesID = SpeciesDatabase.rookiePool[0].id
         }
@@ -263,6 +293,14 @@ final class MultiplayerManager: NSObject {
         }
         clean.level = min(max(beast.level, 1), 99)
         clean.nickname = String(beast.nickname.prefix(20))
+        clean.originTag = String(beast.originTag.prefix(24))
+        clean.xp = min(max(beast.xp, 0), 99 * 50)
+        clean.bond = min(max(beast.bond, 0), 100)
+        clean.fatigue = min(max(beast.fatigue, 0), 100)
+        clean.wins = min(max(beast.wins, 0), 1_000_000)
+        clean.losses = min(max(beast.losses, 0), 1_000_000)
+        // NaN or infinite hue would break the portrait's color shift.
+        clean.hue = beast.hue.isFinite ? min(max(beast.hue, -30), 30) : 0
         return clean
     }
 
